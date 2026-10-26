@@ -1,0 +1,10 @@
+Garden Guardian Firebase push-enabled prototype
+
+1. Upload contents of this folder to an HTTPS host (Firebase Hosting Spark can be used).
+2. Open the hosted site on Android Chrome; install via Chrome menu > Add to Home screen / Install app.
+3. Open Garden Guardian > Settings > Enable Android push notifications.
+4. The app obtains an FCM device registration token locally. A trusted backend must receive and store the token with consent, and use Firebase Admin SDK/FCM HTTP v1 to send messages. Do not place service-account credentials in the web app.
+5. For truly automatic weather and maintenance alerts while closed, set up a free scheduled sender (e.g., GitHub Actions scheduled job) that checks the forecast and plant-care schedule, then sends FCM messages. Current app keeps plants/tasks on-device, so a sender cannot access them yet; add secure synchronization or server-side schedule storage first.
+6. Push delivery is subject to browser/device permissions, connectivity, and free service limits.
+
+Public Firebase configuration and VAPID public key are embedded. Do not upload service account keys or other secrets to a public repo.
