@@ -1,0 +1,24 @@
+name: Garden Guardian alerts
+on:
+  schedule:
+    # Approx. 8 AM and 8 PM Pacific Standard Time; shifts during daylight saving time.
+    - cron: '0 16,4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  alerts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests google-auth
+      - name: Check forecast and send notifications
+        env:
+          FCM_SERVICE_ACCOUNT_JSON: ${{ secrets.FCM_SERVICE_ACCOUNT_JSON }}
+          FCM_DEVICE_TOKEN: ${{ secrets.FCM_DEVICE_TOKEN }}
+          PROJECT_ID: garden-guardian-e6178
+        run: python scripts/send_alerts.py
